@@ -11,8 +11,9 @@ header {
     background: #2d3e50;
     color: #fff;
     padding: 32px 0 16px 0;
-    text-align: left; /* Ubah dari center ke left */
+    text-align: left;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: relative;
 }
 
 header h1 {
@@ -25,6 +26,13 @@ header h1 {
 
 nav {
     margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+    position: absolute;
+    right: 24px;
+    top: 40px;
 }
 
 nav a {
@@ -37,6 +45,21 @@ nav a {
 
 nav a:hover {
     color: #ffd166;
+}
+
+.profile-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffd166;
+    background: #fff;
 }
 
 main {
@@ -118,5 +141,11 @@ button:hover {
     .folder, .shared-task {
         min-width: unset;
         width: 100%;
+    }
+    nav {
+        position: static;
+        justify-content: center;
+        top: unset;
+        right: unset;
     }
 }
