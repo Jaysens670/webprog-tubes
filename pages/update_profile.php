@@ -31,7 +31,7 @@ session_start();
         if (isset($_FILES['pic_profile']) && $_FILES['pic_profile']['error'] == 0) {
             $ext = pathinfo($_FILES['pic_profile']['name'], PATHINFO_EXTENSION);
             $pic_profile = uniqid() . "." . $ext;
-            move_uploaded_file($_FILES['pic_profile']['tmp_name'], "../uploads/" . $pic_profile);
+            move_uploaded_file($_FILES['pic_profile']['tmp_name'], "uploads/" . $pic_profile);
         }
 
         // Query update
