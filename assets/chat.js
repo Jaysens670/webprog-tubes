@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             chatBox.innerHTML = '';
             messages.forEach(msg => {
-                const profilePic = msg.pic_profile ? `../uploads/${msg.pic_profile}` : '../assets/default-profile.png';
+                const profilePic = msg.pic_profile ? `../pages/uploads/${msg.pic_profile}` : '../assets/default-profile.png';
 
                 const div = document.createElement("div");
                 div.className = "chat-message";

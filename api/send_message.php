@@ -25,9 +25,9 @@
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
         $filename = uniqid() . "_" . basename($_FILES['image']['name']);
-        $target_path = "../uploads/" . $filename;
+        $target_path = "../pages/uploads/" . $filename;
         if (move_uploaded_file($_FILES['image']['tmp_name'], $target_path)) {
-            $image_url = "uploads/" . $filename;
+            $image_url = "pages/uploads/" . $filename;
         }
     }
 
