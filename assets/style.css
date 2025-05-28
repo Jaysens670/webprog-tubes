@@ -1,0 +1,83 @@
+/* style.css - Basic styling */
+body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 0; padding: 0; }
+header { background: #2d3e50; color: #fff; padding: 1em; }
+nav a { color: #fff; margin-right: 1em; text-decoration: none; }
+main { padding: 2em; }
+input, button { margin: 0.5em 0; padding: 0.5em; }
+button { background: #2d3e50; color: #fff; border: none; cursor: pointer; }
+button:hover { background: #1a2533; }
+#folders, #shared-tasks { margin-bottom: 2em; }
+
+/* ...existing code... */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+.sidebar {
+    width: 220px;
+    background: #25324a;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.sidebar-header {
+    padding: 1.5em 1em 1em 1em;
+    background: #1a2233;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar-nav li {
+    margin: 0;
+}
+.sidebar-nav a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 1em 1.5em;
+    transition: background 0.2s;
+}
+.sidebar-nav a.active, .sidebar-nav a:hover {
+    background: #3a4a6b;
+}
+.sidebar-nav .logout {
+    color: #ffb3b3;
+}
+.main-content {
+    flex: 1;
+    background: #f7f7f7;
+    padding: 2em 3em;
+}
+.main-header {
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 2em;
+    padding-bottom: 0.5em;
+}
+.folders-section, .shared-section {
+    margin-bottom: 2.5em;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 1.5em 2em;
+}
+.primary-btn {
+    background: #25324a;
+    color: #fff;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-top: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.primary-btn:hover {
+    background: #1a2233;
+}

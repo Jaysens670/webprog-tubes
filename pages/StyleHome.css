@@ -1,0 +1,82 @@
+/* StyleHome.css - Modern header & navigation ala VisioTask */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(120deg, #f0f4f8 0%, #e0e7ef 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+header {
+    background: #2d3e50;
+    color: #fff;
+    padding: 24px 0 12px 0;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+header h1 {
+    margin: 0 0 4px 32px;
+    font-size: 2.1rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+    display: inline-block;
+}
+
+nav {
+    background: #223040;
+    padding: 0 0 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 44px;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.04);
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.08rem;
+    margin-right: 18px;
+    padding: 10px 0;
+    transition: color 0.2s;
+    position: relative;
+}
+
+nav a:hover {
+    color: #ffd166;
+}
+
+main {
+    max-width: 900px;
+    margin: 32px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(44,62,80,0.08);
+    padding: 32px 24px 40px 24px;
+}
+
+footer {
+    text-align: center;
+    color: #888;
+    padding: 18px 0 10px 0;
+    font-size: 1rem;
+    background: transparent;
+    margin-top: 40px;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        margin-left: 12px;
+        font-size: 1.3rem;
+    }
+    nav {
+        padding-left: 8px;
+        gap: 8px;
+    }
+    main {
+        padding: 16px 4vw 24px 4vw;
+    }
+}
