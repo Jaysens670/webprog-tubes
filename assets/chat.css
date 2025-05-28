@@ -101,3 +101,27 @@ h2 {
 .back-button:hover {
     background-color: #636e72;
 }
+
+.chat-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 10px;
+}
+
+.chat-user {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
