@@ -1,11 +1,12 @@
 <?php
-// register.php - Register Page
-session_start();
-if (isset($_SESSION['user_id']) || isset($_COOKIE['user_id'])) {
-    header('Location: index.php');
-    exit();
-}
+    // register.php - Register Page
+    session_start();
+    if (isset($_SESSION['user_id']) || isset($_COOKIE['user_id'])) {
+        header('Location: index.php');
+        exit();
+    }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,12 +24,13 @@ if (isset($_SESSION['user_id']) || isset($_COOKIE['user_id'])) {
         <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="file" name="pic_profile" accept="image/*">
-        <button type="submit">Register</button>
+        <button type="submit" name="submit">Register</button>
     </form>
     <p>Sudah punya akun? <a href="login.php">Login</a></p>
     <div id="registerMsg"></div>
 
     <?php
+    if (isset($_POST['submit'])) {
         include 'db.php';
 
         // Inisialisasi variabel error
@@ -112,6 +114,7 @@ if (isset($_SESSION['user_id']) || isset($_COOKIE['user_id'])) {
             echo "<p style='color:red;'>" . $e->getMessage() . "</p>";
             echo "<p><a href='register.php'>Kembali ke form registrasi</a></p>";
         }
+    }
     ?>
 </body>
 
