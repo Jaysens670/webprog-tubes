@@ -17,6 +17,9 @@
 </head>
 
 <body>
+    <header>
+        <h1 class="Header">VisioTask</h1>
+    </header>
     <h2>Register</h2>
     <form method="POST" action="register.php" enctype="multipart/form-data">
         <input type="text" name="username" placeholder="Username" required>

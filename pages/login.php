@@ -42,6 +42,9 @@
 </head>
 
 <body>
+    <header>
+        <h1 class="Header">VisioTask</h1>
+    </header>
     <h2>Login</h2>
     <?php if (!empty($login_error)): ?>
         <div class="error"><?php echo htmlspecialchars($login_error); ?></div>

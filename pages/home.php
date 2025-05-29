@@ -1,4 +1,3 @@
-
 <?php
     // index.php - Home/Dashboard
     require_once 'db.php';
@@ -33,27 +32,32 @@
     </header>
     <main>
         <h2>Your Task Folders</h2>
-        <div id="folders"  ></div>
+        <div id="folders">
         <?php if ($user_id): ?>
             <?php
-$stmt = $conn->prepare("SELECT t.*, f.folder_name 
-                        FROM tasks t 
-                        JOIN folders f ON t.folder_id = f.folder_id 
-                        WHERE f.user_id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows == 0) {
-    echo "<p>(Belum ada tugas)</p>";
-} else {
-    while ($row = $result->fetch_assoc()) {
-        echo "<div>";
-        echo "<strong><a href='task.php?id={$row['task_id']}'>" . htmlspecialchars($row['title']) . "</a></strong><br>";
-      
-    }
-}
-?>
+            // Ambil semua folder milik user
+            $stmt = $conn->prepare("SELECT * FROM folders WHERE user_id = ?");
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+            $folders = $stmt->get_result();
+            if ($folders->num_rows == 0) {
+                echo "<p>(Belum ada folder)</p>";
+            } else {
+                echo '<div class="folder-list">';
+                while ($folder = $folders->fetch_assoc()) {
+                    echo '<div class="folder-item">';
+                    echo '<strong>' . htmlspecialchars($folder['folder_name']) . '</strong><br>';
+                    echo '<button class="lihat-tugas-btn" onclick="location.href=\'folder.php?id=' . $folder['folder_id'] . '\'">Lihat Tugas</button>';
+                    echo '</div>';
+                }
+                echo '</div>';
+            }
+            ?>
+        <?php else: ?>
+            <p>Silakan login untuk mengakses fitur task dan shared tasks.</p>
+        <?php endif; ?>
+        </div>
+        <?php if ($user_id): ?>
             <button onclick="location.href='addfolder.php'">+ New Folder</button>
             <button onclick="location.href='maketask.php'">+ New task</button>
             <h2>Shared Tasks</h2>
@@ -83,8 +87,6 @@ if ($result->num_rows == 0) {
     }
 }
 ?>
-        <?php else: ?>
-            <p>Silakan login untuk mengakses fitur task dan shared tasks.</p>
         <?php endif; ?>
     </main>
     <script src="assets/main.js"></script>

@@ -50,8 +50,8 @@
         note_text TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (task_id) REFERENCES tasks(task_id) ON DELETE CASCADE,
-        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-    )");
+        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    )");
 
 
     // Tabel task_shares
