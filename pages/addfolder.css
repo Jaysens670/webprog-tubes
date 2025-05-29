@@ -2,8 +2,9 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     background: linear-gradient(120deg, #f0f4f8 0%, #e0e7ef 100%);
     margin: 0;
-    padding: 0;
+    padding: 20px; /* Ditambahkan padding untuk body */
     min-height: 100vh;
+    box-sizing: border-box; /* Memastikan padding tidak mempengaruhi lebar total */
 }
 
 .container {
@@ -11,7 +12,7 @@ body {
     padding: 25px;
     border-radius: 10px;
     max-width: 700px;
-    margin: auto;
+    margin: 20px auto; /* Ditambahkan margin atas */
     box-shadow: 0 4px 24px rgba(44,62,80,0.08);
 }
 
@@ -44,17 +45,43 @@ button:hover {
 }
 
 .message {
-    padding: 10px;
-    margin: 10px 0;
+    padding: 12px 15px;
+    margin: 15px 0;
     border-radius: 5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
 .error {
     background-color: #f8d7da;
     color: #721c24;
+    border-left: 4px solid #f5c6cb;
 }
 
 .success {
     background-color: #d4edda;
     color: #155724;
+    border-left: 4px solid #c3e6cb;
+}
+
+/* Gaya untuk tombol navigasi */
+.navigation-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #95a5a6;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #7f8c8d;
 }
