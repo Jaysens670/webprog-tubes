@@ -43,13 +43,16 @@
     )");
 
     // Tabel task_notes
-    $conn->query("CREATE TABLE IF NOT EXISTS task_notes (
+   $conn->query("CREATE TABLE IF NOT EXISTS task_notes (
         note_id INT AUTO_INCREMENT PRIMARY KEY,
         task_id INT,
+        user_id INT,
         note_text TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (task_id) REFERENCES tasks(task_id) ON DELETE CASCADE
+        FOREIGN KEY (task_id) REFERENCES tasks(task_id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
     )");
+
 
     // Tabel task_shares
     $conn->query("CREATE TABLE IF NOT EXISTS task_shares (

@@ -74,7 +74,7 @@ if (isset($_POST['add_collab']) && $is_owner) {
         $user_check->execute();
         $user_result = $user_check->get_result();
         if ($user_result->num_rows == 0) {
-            $invite_message = "User  '$collab_username' tidak ditemukan.";
+            $invite_message = "User   '$collab_username' tidak ditemukan.";
         } else {
             $collab_user_id = $user_result->fetch_assoc()['user_id'];
             if ($collab_user_id == $user_id) {
@@ -84,12 +84,12 @@ if (isset($_POST['add_collab']) && $is_owner) {
                 $exist_check->bind_param("ii", $task_id, $collab_user_id);
                 $exist_check->execute();
                 if ($exist_check->get_result()->num_rows > 0) {
-                    $invite_message = "User  '$collab_username' sudah menjadi kolaborator.";
+                    $invite_message = "User   '$collab_username' sudah menjadi kolaborator.";
                 } else {
                     $insert = $conn->prepare("INSERT INTO task_shares (task_id, shared_to_user_id) VALUES (?, ?)");
                     $insert->bind_param("ii", $task_id, $collab_user_id);
                     if ($insert->execute()) {
-                        $invite_message = "User  '$collab_username' berhasil ditambahkan sebagai kolaborator.";
+                        $invite_message = "User   '$collab_username' berhasil ditambahkan sebagai kolaborator.";
                     } else {
                         $invite_message = "Gagal menambahkan kolaborator: " . $insert->error;
                     }
@@ -150,6 +150,30 @@ if (isset($_POST['mark_subtask_done'])) {
     header("Location: task.php?id=$task_id");
     exit();
 }
+
+// Handle task notes
+$note_message = '';
+if (isset($_POST['add_note'])) {
+    $note_text = trim($_POST['note_text']);
+    if ($note_text !== '') {
+        $insert_note = $conn->prepare("INSERT INTO task_notes (task_id, user_id, note_text) VALUES (?, ?, ?)");
+        $insert_note->bind_param("iis", $task_id, $user_id, $note_text);
+        if ($insert_note->execute()) {
+            $note_message = "Catatan berhasil ditambahkan!";
+        } else {
+            $note_message = "Gagal menambahkan catatan: " . $insert_note->error;
+        }
+        $insert_note->close();
+    } else {
+        $note_message = "Catatan tidak boleh kosong.";
+    }
+}
+
+// Fetch notes for this task
+$notes = $conn->prepare("SELECT note_text, created_at FROM task_notes WHERE task_id = ? AND user_id = ?");
+$notes->bind_param("ii", $task_id, $user_id);
+$notes->execute();
+$note_result = $notes->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -235,6 +259,21 @@ if (isset($_POST['mark_subtask_done'])) {
             <?php endwhile; ?>
         </div>
     <?php endif; ?>
+
+    <h3>📝 Catatan Pribadi</h3>
+    <?php if ($note_message !== ''): ?>
+        <p class="<?= strpos($note_message, 'berhasil') !== false ? 'message-success' : 'message-error' ?>"><?= htmlspecialchars($note_message) ?></p>
+    <?php endif; ?>
+    <form method="post">
+        <textarea name="note_text" rows="3" placeholder="Tulis catatan..." required></textarea><br>
+        <button class="button" name="add_note">Tambahkan Catatan</button>
+    </form>
+    <h4>Catatan Anda:</h4>
+    <ul>
+        <?php while ($note = $note_result->fetch_assoc()): ?>
+            <li><?= nl2br(htmlspecialchars($note['note_text'])) ?> <small>(<?= $note['created_at'] ?>)</small></li>
+        <?php endwhile; ?>
+    </ul>
 </div>
 </body>
 </html>
