@@ -180,71 +180,108 @@ $note_result = $notes->get_result();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Tugas - <?= htmlspecialchars($task['title']) ?></title>
     <link rel="stylesheet" href="task.css">
 </head>
 <body>
 <div class="container">
     <h2><?= htmlspecialchars($task['title']) ?></h2>
-    <p><strong>📁 Folder:</strong> <?= htmlspecialchars($task['folder_name']) ?></p>
-    <p><strong>👤 Dibuat oleh:</strong> <?= htmlspecialchars($task['folder_owner_name']) ?></p>
-    <p><strong>⏳ Deadline:</strong> <?= $task['deadline'] ?></p>
-    <p><strong>🔥 Prioritas:</strong> <?= $task['priority'] ?></p>
-    <p><strong>📌 Status:</strong>
-    <?php
-        if ($task['status'] === 'Selesai') {
-            echo (new DateTime() > new DateTime($task['deadline'])) ? "<span class='late'>Terlambat diselesaikan ❌</span>" : "<span class='done'>Selesai ✅</span>";
-        } else {
-            echo htmlspecialchars($task['status']);
-        }
-    ?>
-    </p>
-    <p><strong>📝 Deskripsi:</strong><br><?= nl2br(htmlspecialchars($task['description'])) ?></p>
+    
+    <div class="task-meta">
+        <p><strong>📁 Folder:</strong> <?= htmlspecialchars($task['folder_name']) ?></p>
+        <p><strong>👤 Dibuat oleh:</strong> <?= htmlspecialchars($task['folder_owner_name']) ?></p>
+        <p><strong>⏳ Deadline:</strong> <?= $task['deadline'] ?></p>
+        <p><strong>🔥 Prioritas:</strong> <?= $task['priority'] ?></p>
+        <p><strong>📌 Status:</strong>
+        <?php
+            if ($task['status'] === 'Selesai') {
+                echo (new DateTime() > new DateTime($task['deadline'])) ? "<span class='late'>Terlambat diselesaikan ❌</span>" : "<span class='done'>Selesai ✅</span>";
+            } else {
+                echo htmlspecialchars($task['status']);
+            }
+        ?>
+        </p>
+        <p><strong>📝 Deskripsi:</strong><br><?= nl2br(htmlspecialchars($task['description'])) ?></p>
+    </div>
+
     <?php if ($is_owner && $task['status'] !== 'Selesai'): ?>
-    <form method="post"><button class="button" name="mark_done">✔ Tandai Selesai</button></form>
+    <form method="post">
+        <button class="button" name="mark_done">✔ Tandai Selesai</button>
+    </form>
     <?php endif; ?>
+
     <hr>
-    <a href="home.php">balik</a>
-    <h3>🤝 Kolaborator</h3>
-    <ul>
-        <?php while ($c = $collab_result->fetch_assoc()): ?>
-            <li><?= htmlspecialchars($c['username']) ?></li>
-        <?php endwhile; ?>
-    </ul>
-    <?php if ($is_owner): ?>
-        <h4>+ Tambah Kolaborator</h4>
-        <?php if ($invite_message !== ''): ?>
-            <p class="<?= strpos($invite_message, 'berhasil') !== false ? 'message-success' : 'message-error' ?>"><?= htmlspecialchars($invite_message) ?></p>
+
+    <div class="navigation-buttons">
+        <a href="home.php" class="back-button">← Kembali ke Main Menu</a>
+    </div>
+
+    <div class="collaborators-section">
+        <h3>🤝 Kolaborator</h3>
+        <ul>
+            <?php while ($c = $collab_result->fetch_assoc()): ?>
+                <li><?= htmlspecialchars($c['username']) ?></li>
+            <?php endwhile; ?>
+        </ul>
+        
+        <?php if ($is_owner): ?>
+            <h4>+ Tambah Kolaborator</h4>
+            <?php if ($invite_message !== ''): ?>
+                <p class="<?= strpos($invite_message, 'berhasil') !== false ? 'message-success' : 'message-error' ?>"><?= htmlspecialchars($invite_message) ?></p>
+            <?php endif; ?>
+            <form method="post">
+                <input type="text" name="collab_username" placeholder="Masukkan username user" required>
+                <button class="button" name="add_collab" type="submit">Tambahkan</button>
+            </form>
+        <?php endif; ?>
+    </div>
+
+    <div class="subtasks-section">
+        <h3>📝 Subtasks</h3>
+        <ul>
+            <?php while ($subtask = $subtask_result->fetch_assoc()): ?>
+                <li>
+                    <strong><?= htmlspecialchars($subtask['title']) ?></strong> - <?= $subtask['is_done'] ? '✔ Selesai' : '✘ Belum Selesai' ?>
+                    <?php if (!$subtask['is_done']): ?>
+                        <form method="post" style="display:inline;">
+                            <input type="hidden" name="subtask_id" value="<?= $subtask['subtask_id'] ?>">
+                            <button type="submit" name="mark_subtask_done" class="button">Tandai Selesai</button>
+                        </form>
+                    <?php endif; ?>
+                </li>
+            <?php endwhile; ?>
+        </ul>
+
+        <h3>➕ Tambah Subtask</h3>
+        <?php if ($subtask_message !== ''): ?>
+            <p class="<?= strpos($subtask_message, 'berhasil') !== false ? 'message-success' : 'message-error' ?>"><?= htmlspecialchars($subtask_message) ?></p>
         <?php endif; ?>
         <form method="post">
-            <input type="text" name="collab_username" placeholder="Masukkan username user" required>
-            <button class="button" name="add_collab" type="submit">Tambahkan</button>
+            <input type="text" name="subtask_title" placeholder="Judul Subtask" required>
+            <button class="button" name="add_subtask" type="submit">Tambah Subtask</button>
         </form>
-    <?php endif; ?>
-    <h3>➕ Tambah Subtask</h3>
-    <?php if ($subtask_message !== ''): ?>
-        <p class="<?= strpos($subtask_message, 'berhasil') !== false ? 'message-success' : 'message-error' ?>"><?= htmlspecialchars($subtask_message) ?></p>
-    <?php endif; ?>
-    <form method="post">
-        <input type="text" name="subtask_title" placeholder="Judul Subtask" required>
-        <button class="button" name="add_subtask" type="submit">Tambah Subtask</button>
-    </form>
-    <h3>📝 Subtasks</h3>
-    <ul>
-        <?php while ($subtask = $subtask_result->fetch_assoc()): ?>
-            <li>
-                <strong><?= htmlspecialchars($subtask['title']) ?></strong> - <?= $subtask['is_done'] ? '✔ Selesai' : '✘ Belum Selesai' ?>
-                <?php if (!$subtask['is_done']): ?>
-                    <form method="post" style="display:inline;">
-                        <input type="hidden" name="subtask_id" value="<?= $subtask['subtask_id'] ?>">
-                        <button type="submit" name="mark_subtask_done" class="button">Tandai Selesai</button>
-                    </form>
-                <?php endif; ?>
-            </li>
-        <?php endwhile; ?>
-    </ul>
+    </div>
+
+    <div class="notes-section">
+        <h3>📝 Catatan Pribadi</h3>
+        <?php if ($note_message !== ''): ?>
+            <p class="<?= strpos($note_message, 'berhasil') !== false ? 'message-success' : 'message-error' ?>"><?= htmlspecialchars($note_message) ?></p>
+        <?php endif; ?>
+        <form method="post">
+            <textarea name="note_text" rows="3" placeholder="Tulis catatan..." required></textarea><br>
+            <button class="button" name="add_note">Tambahkan Catatan</button>
+        </form>
+        <h4>Catatan Anda:</h4>
+        <ul>
+            <?php while ($note = $note_result->fetch_assoc()): ?>
+                <li><?= nl2br(htmlspecialchars($note['note_text'])) ?> <small>(<?= $note['created_at'] ?>)</small></li>
+            <?php endwhile; ?>
+        </ul>
+    </div>
+
     <?php if ($is_owner || $is_collaborator): ?>
-        <div class="comment-box">
+        <div class="comments-section">
             <h3>💬 Komentar</h3>
             <form method="post">
                 <textarea name="message" rows="3" placeholder="Tulis komentar..." required></textarea><br>
@@ -259,21 +296,6 @@ $note_result = $notes->get_result();
             <?php endwhile; ?>
         </div>
     <?php endif; ?>
-
-    <h3>📝 Catatan Pribadi</h3>
-    <?php if ($note_message !== ''): ?>
-        <p class="<?= strpos($note_message, 'berhasil') !== false ? 'message-success' : 'message-error' ?>"><?= htmlspecialchars($note_message) ?></p>
-    <?php endif; ?>
-    <form method="post">
-        <textarea name="note_text" rows="3" placeholder="Tulis catatan..." required></textarea><br>
-        <button class="button" name="add_note">Tambahkan Catatan</button>
-    </form>
-    <h4>Catatan Anda:</h4>
-    <ul>
-        <?php while ($note = $note_result->fetch_assoc()): ?>
-            <li><?= nl2br(htmlspecialchars($note['note_text'])) ?> <small>(<?= $note['created_at'] ?>)</small></li>
-        <?php endwhile; ?>
-    </ul>
 </div>
 </body>
 </html>
