@@ -53,6 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("issssss", $folder_id, $title, $description, $deadline, $status, $priority, $created_at);
             if ($stmt->execute()) {
                 $success = "Task successfully added!";
+                // Clear form fields after successful submission
+                $title = $description = $deadline = '';
             } else {
                 $error = "Database error: " . $stmt->error;
             }
@@ -67,66 +69,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Add Task - VisioTask</title>
-<link rel="stylesheet" href="maketask.css">
-<style>
-    .message {
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 5px;
-    }
-    .error {
-        background-color: #f8d7da;
-        color: #721c24;
-    }
-    .success {
-        background-color: #d4edda;
-        color: #155724;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task - VisioTask</title>
+    <link rel="stylesheet" href="maketask.css">
 </head>
 <body>
-    <a href="home.php">back</a>
-<h2>Add New Task</h2>
-
-<?php if (!empty($error)): ?>
-    <div class="message error"><?php echo htmlspecialchars($error); ?></div>
-<?php endif; ?>
-
-<?php if (!empty($success)): ?>
-    <div class="message success"><?php echo htmlspecialchars($success); ?></div>
-<?php endif; ?>
-
-<form method="post" action="">
-    <label for="folder_id">Select Folder:</label>
-    <select name="folder_id" id="folder_id" required>
-        <?php foreach ($folders as $folder): ?>
-            <option value="<?php echo htmlspecialchars($folder['folder_id']); ?>">
-                <?php echo htmlspecialchars($folder['folder_name']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-
-    <label for="title">Task Title:</label>
-    <input type="text" name="title" id="title" required maxlength="255" />
-
-    <label for="description">Description:</label>
-    <textarea name="description" id="description" required maxlength="2000"></textarea>
-
-    <label for="deadline">Deadline:</label>
-    <input type="date" name="deadline" id="deadline" required />
-
-    <label for="priority">Priority:</label>
-    <select name="priority" id="priority" required>
-        <option value="Tinggi">Tinggi</option>
-        <option value="Sedang">Sedang</option>
-        <option value="Rendah">Rendah</option>
-    </select>
-
-    <input type="submit" value="Add Task" />
-</form>
-
+<div class="container">
+    <h2>Add New Task</h2>
+    
+    <?php if (!empty($error)): ?>
+        <div class="message error"><?php echo htmlspecialchars($error); ?></div>
+    <?php endif; ?>
+    
+    <?php if (!empty($success)): ?>
+        <div class="message success"><?php echo htmlspecialchars($success); ?></div>
+    <?php endif; ?>
+    
+    <form method="post" action="">
+        <label for="folder_id">Select Folder:</label>
+        <select name="folder_id" id="folder_id" required>
+            <?php foreach ($folders as $folder): ?>
+                <option value="<?php echo htmlspecialchars($folder['folder_id']); ?>">
+                    <?php echo htmlspecialchars($folder['folder_name']); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        
+        <label for="title">Task Title:</label>
+        <input type="text" name="title" id="title" required maxlength="255" value="<?php echo isset($title) ? htmlspecialchars($title) : ''; ?>" />
+        
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" required maxlength="2000"><?php echo isset($description) ? htmlspecialchars($description) : ''; ?></textarea>
+        
+        <label for="deadline">Deadline:</label>
+        <input type="date" name="deadline" id="deadline" required value="<?php echo isset($deadline) ? htmlspecialchars($deadline) : ''; ?>" />
+        
+        <label for="priority">Priority:</label>
+        <select name="priority" id="priority" required>
+            <option value="Tinggi">Tinggi</option>
+            <option value="Sedang" <?php echo (isset($priority) && $priority === 'Sedang') ? 'selected' : ''; ?>>Sedang</option>
+            <option value="Rendah" <?php echo (isset($priority) && $priority === 'Rendah') ? 'selected' : ''; ?>>Rendah</option>
+        </select>
+        
+        <input type="submit" value="Add Task" />
+        
+        <div class="navigation-buttons">
+            <a href="home.php" class="back-button">← Kembali ke Main Menu</a>
+        </div>
+    </form>
+</div>
 </body>
 </html>
