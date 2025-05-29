@@ -70,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Add Task - VisioTask</title>
+<link rel="stylesheet" href="maketask.css">
 <style>
     .message {
         padding: 10px;
