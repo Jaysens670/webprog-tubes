@@ -22,11 +22,15 @@
     </header>
     <h2>Register</h2>
     <form method="POST" action="register.php" enctype="multipart/form-data">
+        <div style="display: flex; align-items: center; gap: 16px; justify-content: flex-start; margin-bottom: 8px;">
+            <span style="font-size: 1rem; color: #2d3e50; font-weight: 500; min-width:120px; text-align:right;">Profile Picture :</span>
+            <button id="addProfilePicture" type="button" onclick="document.getElementById('profileInput').click();">+</button>
+        </div>
+        <input type="file" id="profileInput" name="pic_profile" accept="image/*" style="display:none;">
         <input type="text" name="username" placeholder="Username" required>
         <input type="text" name="fullname" placeholder="Full Name" required>
         <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Password" required>
-        <input type="file" name="pic_profile" accept="image/*">
         <button type="submit" name="submit">Register</button>
     </form>
     <p>Sudah punya akun? <a href="login.php">Login</a></p>
@@ -119,6 +123,24 @@
         }
     }
     ?>
+
+    <script>
+    // Preview profile picture (optional, can be removed if not needed)
+    const addBtn = document.getElementById('addProfilePicture');
+    const input = document.getElementById('profileInput');
+    addBtn.addEventListener('keydown', function(e) { if(e.key==='Enter'||e.key===' '){input.click();} });
+    input.addEventListener('change', function() {
+        if (input.files && input.files[0]) {
+            addBtn.textContent = '✓';
+            addBtn.style.color = '#2d3e50';
+            addBtn.style.background = '#ffd166';
+        } else {
+            addBtn.textContent = '+';
+            addBtn.style.color = '#ffd166';
+            addBtn.style.background = '#fff';
+        }
+    });
+    </script>
 </body>
 
 </html>

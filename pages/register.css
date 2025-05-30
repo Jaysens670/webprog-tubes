@@ -111,6 +111,33 @@ a:hover {
     min-height: 24px;
 }
 
+button#addProfilePicture {
+    background: #fff;
+        color: #ffd166;
+    border: 2.5px dashed #ffd166;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(44,62,80,0.12);
+    transition: border 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
+    margin: 0 auto 18px auto;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+
+button#addProfilePicture:hover, button#addProfilePicture:focus {
+    border: 2.5px solid #ffd166;
+    background: #fffbe6;
+    color: #2d3e50;
+    box-shadow: 0 6px 24px rgba(255,209,102,0.18);
+}
+
 @media (max-width: 500px) {
     form {
         min-width: unset;
