@@ -97,23 +97,19 @@
             }
             echo "<p><a href='register.php'>Kembali ke form registrasi</a></p>";
             exit;
-        } else {
-            echo "<script>alert('Register berhasil');</script>";
         }
-
         // Proses registrasi jika tidak ada error
         try {
             $username = $_POST['username'];
             $fullname = $_POST['fullname'];
             $email = $_POST['email'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
             $sql = "INSERT INTO users (username, fullname, email, password, pic_profile) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sssss", $username, $fullname, $email, $password, $pic_profile);
-
             if ($stmt->execute()) {
-                echo "Registrasi berhasil. <a href='login.php'>Login di sini</a>";
+                echo "<script>alert('Registrasi berhasil!');window.location.href='login.php';</script>";
+                exit();
             } else {
                 throw new Exception("Gagal registrasi: " . $stmt->error);
             }
@@ -125,19 +121,39 @@
     ?>
 
     <script>
-    // Preview profile picture (optional, can be removed if not needed)
-    const addBtn = document.getElementById('addProfilePicture');
+    // Preview profile picture in the circle
     const input = document.getElementById('profileInput');
-    addBtn.addEventListener('keydown', function(e) { if(e.key==='Enter'||e.key===' '){input.click();} });
+    let previewImg = document.getElementById('profilePreview');
+    if (!previewImg) {
+        previewImg = document.createElement('img');
+        previewImg.id = 'profilePreview';
+        previewImg.alt = '';
+        previewImg.style.width = '100%';
+        previewImg.style.height = '100%';
+        previewImg.style.objectFit = 'cover';
+        previewImg.style.position = 'absolute';
+        previewImg.style.left = '0';
+        previewImg.style.top = '0';
+        previewImg.style.borderRadius = '50%';
+        previewImg.style.zIndex = '1';
+        document.getElementById('addProfilePicture').style.position = 'relative';
+        document.getElementById('addProfilePicture').appendChild(previewImg);
+    }
+    // Set default image as blank (transparent SVG) to avoid broken icon
+    const blankSVG =
+        'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"></svg>';
+    previewImg.src = blankSVG;
     input.addEventListener('change', function() {
         if (input.files && input.files[0]) {
-            addBtn.textContent = '✓';
-            addBtn.style.color = '#2d3e50';
-            addBtn.style.background = '#ffd166';
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
         } else {
-            addBtn.textContent = '+';
-            addBtn.style.color = '#ffd166';
-            addBtn.style.background = '#fff';
+            previewImg.src = blankSVG;
+            previewImg.style.display = 'block';
         }
     });
     </script>
