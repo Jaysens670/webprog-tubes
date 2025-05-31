@@ -1,12 +1,17 @@
 <?php
 include 'config.php';
 
+// Buat password yang sudah di-hash
+$passAni = password_hash('passani', PASSWORD_DEFAULT);
+$passBudi = password_hash('passbudi', PASSWORD_DEFAULT);
+$passCitra = password_hash('passcitra', PASSWORD_DEFAULT);
 
 // Users
 $conn->query("INSERT INTO users (username, fullname, password, email, pic_profile) VALUES
-('ani123', 'Ani Wijaya', 'passani', 'ani@gmail.com', 'ani.jpg'),
-('budi321', 'Budi Santoso', 'passbudi', 'budi@gmail.com', 'budi.jpg'),
-('citra456', 'Citra Lestari', 'passcitra', 'citra@gmail.com', 'citra.jpg')");
+('ani123', 'Ani Wijaya', '$passAni', 'ani@gmail.com', 'ani.jpg'),
+('budi321', 'Budi Santoso', '$passBudi', 'budi@gmail.com', 'budi.jpg'),
+('citra456', 'Citra Lestari', '$passCitra', 'citra@gmail.com', 'citra.jpg')");
+
 
 // Folders (folder tugas milik Ani)
 $conn->query("INSERT INTO folders (user_id, folder_name) VALUES
