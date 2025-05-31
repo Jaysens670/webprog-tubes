@@ -1,4 +1,3 @@
-// register.js - Register AJAX logic
 document.getElementById('registerForm').onsubmit = async function(e) {
     e.preventDefault();
     const form = e.target;

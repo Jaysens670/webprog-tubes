@@ -213,7 +213,6 @@ button:hover {
     color: #ffd166;
 }
 
-/* Shared Tasks Card Layout */
 .shared-tasks-list {
     display: flex;
     flex-wrap: wrap;

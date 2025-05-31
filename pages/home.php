@@ -1,9 +1,7 @@
 <?php
-    // index.php - Home/Dashboard
     require_once 'db.php';
     session_start();
     
-    // Cek apakah session/cookie user_id ada, jika tidak set null
     $user_id = $_SESSION['user_id'] ?? ($_COOKIE['user_id'] ?? null);
 ?>
 
@@ -35,7 +33,6 @@
         <div id="folders">
         <?php if ($user_id): ?>
             <?php
-            // Ambil semua folder milik user
             $stmt = $conn->prepare("SELECT * FROM folders WHERE user_id = ?");
             $stmt->bind_param("i", $user_id);
             $stmt->execute();

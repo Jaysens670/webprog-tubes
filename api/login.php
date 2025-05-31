@@ -1,5 +1,4 @@
 <?php
-    // api/login.php - Handle AJAX login
     require_once '../db.php';
     require_once '../cookie_helper.php';
     session_start();

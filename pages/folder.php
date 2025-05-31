@@ -1,5 +1,4 @@
 <?php
-// folder.php - Menampilkan daftar tugas dalam folder tertentu
 require_once 'db.php';
 session_start();
 
@@ -11,7 +10,6 @@ if (!$user_id || !$folder_id) {
     exit;
 }
 
-// Ambil data folder
 $stmt = $conn->prepare("SELECT * FROM folders WHERE folder_id = ? AND user_id = ?");
 $stmt->bind_param("ii", $folder_id, $user_id);
 $stmt->execute();
@@ -22,7 +20,6 @@ if (!$folder) {
     exit;
 }
 
-// Ambil daftar tugas di folder ini, urutkan berdasarkan prioritas (TINGGI > SEDANG > RENDAH), lalu deadline terdekat ke atas
 $stmt = $conn->prepare("SELECT * FROM tasks WHERE folder_id = ? ORDER BY FIELD(priority, 'Tinggi', 'Sedang', 'Rendah'), deadline ASC");
 $stmt->bind_param("i", $folder_id);
 $stmt->execute();

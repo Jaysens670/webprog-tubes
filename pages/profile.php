@@ -60,7 +60,6 @@
             const passwordField = document.getElementById("new_password");
             passwordField.type = this.checked ? "text" : "password";
         });
-        // Preview profile picture before upload
         const picInput = document.getElementById('pic_profile');
         const previewImg = document.getElementById('profilePreview');
         picInput.addEventListener('change', function() {

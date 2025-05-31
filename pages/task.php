@@ -151,7 +151,6 @@ if (isset($_POST['mark_subtask_done'])) {
     exit();
 }
 
-// Handle task notes
 $note_message = '';
 if (isset($_POST['add_note'])) {
     $note_text = trim($_POST['note_text']);
@@ -169,7 +168,6 @@ if (isset($_POST['add_note'])) {
     }
 }
 
-// Fetch notes for this task
 $notes = $conn->prepare("SELECT note_text, created_at FROM task_notes WHERE task_id = ? AND user_id = ?");
 $notes->bind_param("ii", $task_id, $user_id);
 $notes->execute();

@@ -9,7 +9,6 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch available folders for the current user only
 $folders = [];
 $sql = "SELECT folder_id, folder_name FROM folders WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
@@ -23,7 +22,6 @@ if ($result) {
     }
 }
 
-// If form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $folder_id = (int)$_POST['folder_id'];
     $title = trim($_POST['title']);
@@ -31,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $deadline = $_POST['deadline'];
     $priority = $_POST['priority'];
 
-    // Verify that the folder belongs to the user
     $valid_folder = false;
     foreach ($folders as $folder) {
         if ($folder['folder_id'] == $folder_id) {
@@ -53,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("issssss", $folder_id, $title, $description, $deadline, $status, $priority, $created_at);
             if ($stmt->execute()) {
                 $success = "Task successfully added!";
-                // Clear form fields after successful submission
                 $title = $description = $deadline = '';
             } else {
                 $error = "Database error: " . $stmt->error;

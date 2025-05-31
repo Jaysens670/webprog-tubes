@@ -1,5 +1,4 @@
 <?php
-    // api/register.php - Handle AJAX registration
     require_once '../db.php';
     require_once '../cookie_helper.php';
     session_start();

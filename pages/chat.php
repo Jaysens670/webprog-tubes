@@ -41,11 +41,9 @@
 
     <script src="../assets/chat.js"></script>
     <script>
-        // Add image button logic
         document.getElementById('addImageBtn').addEventListener('click', function(e) {
             document.getElementById('imageInput').click();
         });
-        // Preview image logic
         document.getElementById('imageInput').addEventListener('change', function(e) {
             const file = this.files[0];
             const preview = document.getElementById('previewImage');
@@ -61,13 +59,12 @@
                 preview.style.display = 'none';
             }
         });
-        // Hilangkan preview gambar setelah submit
         document.getElementById('chatForm').addEventListener('submit', function(e) {
             setTimeout(function() {
                 const preview = document.getElementById('previewImage');
                 preview.src = '#';
                 preview.style.display = 'none';
-            }, 100); // beri jeda agar proses upload tidak terganggu
+            }, 100);
         });
     </script>
 </body>

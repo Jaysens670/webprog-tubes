@@ -28,14 +28,12 @@ session_start();
             $errors[] = "Nama dan Email wajib diisi.";
         }
 
-        // Proses upload foto profil (opsional)
         if (isset($_FILES['pic_profile']) && $_FILES['pic_profile']['error'] == 0) {
             $ext = pathinfo($_FILES['pic_profile']['name'], PATHINFO_EXTENSION);
             $pic_profile = uniqid() . "." . $ext;
             move_uploaded_file($_FILES['pic_profile']['tmp_name'], "uploads/" . $pic_profile);
         }
 
-        // Cek apakah username/email sudah digunakan user lain
         $cek = $conn->prepare("SELECT user_id FROM users WHERE (email = ?) AND user_id != ? LIMIT 1");
         $cek->bind_param("si", $email, $user_id);
         $cek->execute();
@@ -45,7 +43,6 @@ session_start();
             exit;
         }
 
-        // Query update
         if (empty($errors)) {
             if ($new_password) {
                 $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);

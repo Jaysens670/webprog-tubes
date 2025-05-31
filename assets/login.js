@@ -1,4 +1,3 @@
-// login.js - Login AJAX logic
 document.getElementById('loginForm').onsubmit = async function(e) {
     e.preventDefault();
     const form = e.target;
@@ -14,5 +13,5 @@ document.getElementById('loginForm').onsubmit = async function(e) {
     const status = xml.getElementsByTagName('status')[0]?.textContent;
     const message = xml.getElementsByTagName('message')[0]?.textContent || '';
     document.getElementById('loginMsg').innerText = message;
-    if (status === 'success') location.href = 'index.php';
+    if (status === 'success') location.href = 'home.php';
 };

@@ -1,8 +1,7 @@
 <?php
-    // register.php - Register Page
     session_start();
     if (isset($_SESSION['user_id']) || isset($_COOKIE['user_id'])) {
-        header('Location: index.php');
+        header('Location: home.php');
         exit();
     }
 ?>
