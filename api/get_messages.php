@@ -1,10 +1,10 @@
 <?php
     require_once __DIR__ . '/../pages/db.php';
-    header('Content-Type: application/json');
+    header('Content-Type: application/xml; charset=utf-8');
 
     if (!isset($_GET['channel_id'])) {
         http_response_code(400);
-        echo json_encode(['error' => 'Channel ID missing']);
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?><error>Channel ID missing</error>";
         exit;
     }
 
@@ -21,10 +21,17 @@
     $stmt->execute();
     $result = $stmt->get_result();
 
-    $messages = [];
+    echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    echo "<messages>";
     while ($row = $result->fetch_assoc()) {
-        $messages[] = $row;
+        echo "<message>";
+        echo "<message_id>" . htmlspecialchars($row['message_id']) . "</message_id>";
+        echo "<username>" . htmlspecialchars($row['username']) . "</username>";
+        echo "<content>" . htmlspecialchars($row['content']) . "</content>";
+        echo "<image_url>" . htmlspecialchars($row['image_url']) . "</image_url>";
+        echo "<timestamp>" . htmlspecialchars($row['timestamp']) . "</timestamp>";
+        echo "<pic_profile>" . htmlspecialchars($row['pic_profile']) . "</pic_profile>";
+        echo "</message>";
     }
-
-    echo json_encode($messages);
+    echo "</messages>";
 ?>

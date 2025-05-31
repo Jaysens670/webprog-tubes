@@ -7,8 +7,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function loadChannels() {
         try {
-            const res = await fetch("../api/get_channels.php");
-            const channels = await res.json();
+            const res = await fetch("../api/get_channels.php", { headers: { 'Accept': 'application/xml' } });
+            const xmlText = await res.text();
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(xmlText, "application/xml");
+            const channels = Array.from(xml.getElementsByTagName('channel')).map(c => ({
+                channel_id: c.getElementsByTagName('channel_id')[0].textContent,
+                name: c.getElementsByTagName('name')[0].textContent
+            }));
 
             channels.forEach(c => {
                 const opt = document.createElement("option");
@@ -29,13 +35,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function loadMessages() {
         const channelId = channelSelect.value;
         try {
-            const res = await fetch(`../api/get_messages.php?channel_id=${channelId}`);
-            const messages = await res.json();
+            const res = await fetch(`../api/get_messages.php?channel_id=${channelId}`, { headers: { 'Accept': 'application/xml' } });
+            const xmlText = await res.text();
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(xmlText, "application/xml");
+            const messages = Array.from(xml.getElementsByTagName('message')).map(msg => ({
+                username: msg.getElementsByTagName('username')[0].textContent,
+                content: msg.getElementsByTagName('content')[0].textContent,
+                image_url: msg.getElementsByTagName('image_url')[0]?.textContent,
+                pic_profile: msg.getElementsByTagName('pic_profile')[0]?.textContent
+            }));
 
             chatBox.innerHTML = '';
             messages.forEach(msg => {
                 const profilePic = msg.pic_profile ? `../pages/uploads/${msg.pic_profile}` : '../assets/default-profile.png';
-
                 const div = document.createElement("div");
                 div.className = "chat-message";
                 div.innerHTML = `
