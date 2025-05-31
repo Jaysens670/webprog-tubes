@@ -20,7 +20,7 @@
 
 <head>
     <title>Profile</title>
-    <link rel="stylesheet" href="../assets/profile.css">
+    <link rel="stylesheet" href="profile.css">
 </head>
 
 <body>
@@ -38,12 +38,14 @@
         <input type="checkbox" id="showPassword"> Tampilkan Password<br><br>
         
         Foto Profil:
-        <?php
-        $profilePicPath = isset($user['pic_profile']) && $user['pic_profile'] ? '../uploads/' . htmlspecialchars($user['pic_profile']) : '../assets/default-profile.png';
-        ?>
-        <div style="margin-bottom:8px;">
-            <img id="profilePreview" src="<?= $profilePicPath ?>" width="100" style="border-radius:50%; border:2px solid #ffd166; box-shadow:0 2px 8px rgba(44,62,80,0.10);" onerror="this.onerror=null;this.src='../assets/default-profile.png';"><br>
-        </div>
+        <?php if ($user['pic_profile']): ?>
+            <div style="margin-bottom:8px;">
+                <img id="profilePreview" src="uploads/<?= htmlspecialchars($user['pic_profile']) ?>" width="100" style="border-radius:50%; border:2px solid #ffd166; box-shadow:0 2px 8px rgba(44,62,80,0.10);"><br>
+            </div>
+        <?php else: ?>
+            <img id="profilePreview" src="../assets/default-profile.png" width="100" style="border-radius:50%; border:2px solid #ffd166; box-shadow:0 2px 8px rgba(44,62,80,0.10); display:none;"><br>
+            <p style="color:gray;">(Belum ada foto profil)</p>
+        <?php endif; ?>
         <label for="pic_profile" style="font-weight:500; margin-top:4px; display:inline-block;">Ubah Profile Picture</label>
         <input type="file" id="pic_profile" name="pic_profile"><br>
 
@@ -69,14 +71,6 @@
                     previewImg.style.display = 'block';
                 }
                 reader.readAsDataURL(picInput.files[0]);
-            } else {
-                // If no file selected, revert to default or previous
-                <?php if ($user['pic_profile']): ?>
-                previewImg.src = '../uploads/<?= htmlspecialchars($user['pic_profile']) ?>';
-                <?php else: ?>
-                previewImg.src = '../assets/default-profile.png';
-                <?php endif; ?>
-                previewImg.style.display = 'block';
             }
         });
     </script>

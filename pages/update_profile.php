@@ -9,7 +9,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>Update Profile</title>
-    <link rel="stylesheet" href="../assets/update_profile.css">
+    <link rel="stylesheet" href="update_profile.css">
 </head>
 
 <body>
