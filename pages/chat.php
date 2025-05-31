@@ -22,7 +22,7 @@
     <select id="channelSelect"></select>
     <div id="chatBox"></div>
 
-    <form id="chatForm" enctype="multipart/form-data">
+        <form id="chatForm" enctype="multipart/form-data">
         <input type="text" id="messageInput" placeholder="Ketik pesan...">
         <label for="imageInput" style="margin-left:8px;">Input Gambar:</label>
         <input type="file" id="imageInput" style="display:none;">

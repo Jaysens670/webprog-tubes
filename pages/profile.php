@@ -39,13 +39,17 @@
         
         Foto Profil:
         <?php if ($user['pic_profile']): ?>
-            <img src="uploads/<?= htmlspecialchars($user['pic_profile']) ?>" width="100"><br>
+            <div style="margin-bottom:8px;">
+                <img id="profilePreview" src="uploads/<?= htmlspecialchars($user['pic_profile']) ?>" width="100" style="border-radius:50%; border:2px solid #ffd166; box-shadow:0 2px 8px rgba(44,62,80,0.10);"><br>
+            </div>
         <?php else: ?>
+            <img id="profilePreview" src="../assets/default-profile.png" width="100" style="border-radius:50%; border:2px solid #ffd166; box-shadow:0 2px 8px rgba(44,62,80,0.10); display:none;"><br>
             <p style="color:gray;">(Belum ada foto profil)</p>
         <?php endif; ?>
-        <input type="file" name="pic_profile"><br>
+        <label for="pic_profile" style="font-weight:500; margin-top:4px; display:inline-block;">Ubah Profile Picture</label>
+        <input type="file" id="pic_profile" name="pic_profile"><br>
 
-        <button type="submit">Simpan</button>
+        <button type="submit" class="gradient-btn">Simpan</button>
     </form>
     <div class="navigation-buttons">
         <a href="home.php" class="back-button">← Kembali ke Main Menu</a>
@@ -55,6 +59,19 @@
         document.getElementById("showPassword").addEventListener("change", function() {
             const passwordField = document.getElementById("new_password");
             passwordField.type = this.checked ? "text" : "password";
+        });
+        // Preview profile picture before upload
+        const picInput = document.getElementById('pic_profile');
+        const previewImg = document.getElementById('profilePreview');
+        picInput.addEventListener('change', function() {
+            if (picInput.files && picInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                }
+                reader.readAsDataURL(picInput.files[0]);
+            }
         });
     </script>
 
