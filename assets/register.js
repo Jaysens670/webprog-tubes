@@ -11,4 +11,3 @@ document.getElementById('registerForm').onsubmit = async function(e) {
     document.getElementById('registerMsg').innerText = msg;
     if (msg.includes('success')) location.href = 'login.php';
 };
-//test reyerggrgre
