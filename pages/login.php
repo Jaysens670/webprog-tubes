@@ -27,6 +27,7 @@
             header("Location: home.php");
             exit();
         } else {
+            echo "<script>alert('Invalid username or password');</script>";
             $login_error = "Invalid username or password";
         }
     }
@@ -46,9 +47,6 @@
         <h1 class="Header">VisioTask</h1>
     </header>
     <h2>Login</h2>
-    <?php if (!empty($login_error)): ?>
-        <div class="error"><?php echo htmlspecialchars($login_error); ?></div>
-    <?php endif; ?>
     <form id="loginForm" method="post">
         <input type="text" name="username" placeholder="Username" required><br>
         <input type="password" name="password" placeholder="Password" required><br>

@@ -104,6 +104,17 @@
             $fullname = $_POST['fullname'];
             $email = $_POST['email'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+            // Cek username/email sudah terdaftar
+            $cek = $conn->prepare("SELECT user_id FROM users WHERE username = ? OR email = ? LIMIT 1");
+            $cek->bind_param("ss", $username, $email);
+            $cek->execute();
+            $cek_result = $cek->get_result();
+            if ($cek_result->num_rows > 0) {
+                echo "<script>alert('Email or Username is already used.');window.history.back();</script>";
+                exit;
+            }
+
             $sql = "INSERT INTO users (username, fullname, email, password, pic_profile) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sssss", $username, $fullname, $email, $password, $pic_profile);

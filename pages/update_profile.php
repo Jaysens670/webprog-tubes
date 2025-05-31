@@ -15,6 +15,7 @@ session_start();
 <body>
 
     <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_id = $_POST['user_id'];
         $fullname = $_POST['fullname'];
         $email = $_POST['email'];
@@ -32,6 +33,16 @@ session_start();
             $ext = pathinfo($_FILES['pic_profile']['name'], PATHINFO_EXTENSION);
             $pic_profile = uniqid() . "." . $ext;
             move_uploaded_file($_FILES['pic_profile']['tmp_name'], "uploads/" . $pic_profile);
+        }
+
+        // Cek apakah username/email sudah digunakan user lain
+        $cek = $conn->prepare("SELECT user_id FROM users WHERE (email = ?) AND user_id != ? LIMIT 1");
+        $cek->bind_param("si", $email, $user_id);
+        $cek->execute();
+        $cek_result = $cek->get_result();
+        if ($cek_result->num_rows > 0) {
+            echo "<script>alert('Email sudah digunakan oleh user lain');window.history.back();</script>";
+            exit;
         }
 
         // Query update
@@ -64,6 +75,7 @@ session_start();
             }
             echo "<a href='profile.php'>Kembali</a></div>";
         }
+    }
     ?>
 
 </body>

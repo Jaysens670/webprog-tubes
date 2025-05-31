@@ -22,8 +22,8 @@ if (!$folder) {
     exit;
 }
 
-// Ambil daftar tugas di folder ini
-$stmt = $conn->prepare("SELECT * FROM tasks WHERE folder_id = ?");
+// Ambil daftar tugas di folder ini, urutkan berdasarkan prioritas (TINGGI > SEDANG > RENDAH), lalu deadline terdekat ke atas
+$stmt = $conn->prepare("SELECT * FROM tasks WHERE folder_id = ? ORDER BY FIELD(priority, 'Tinggi', 'Sedang', 'Rendah'), deadline ASC");
 $stmt->bind_param("i", $folder_id);
 $stmt->execute();
 $tasks = $stmt->get_result();
@@ -37,10 +37,16 @@ $tasks = $stmt->get_result();
 </head>
 <body>
     <header>
-        <h1 class="Header">Tugas di Folder: <?php echo htmlspecialchars($folder['folder_name']); ?></h1>
+        <h1 class="Header">VisioTask</h1>
         <nav>
-            <a href="home.php">Home</a> |
-            <a href="logout.php">Logout</a>
+            <?php if ($user_id): ?>
+                <a href="profile.php">Profile</a> |
+                <a href="chat.php">Global Chat</a> |
+                <a href="logout.php">Logout</a>
+            <?php else: ?>
+                <a href="login.php">Login</a> |
+                <a href="register.php">Register</a>
+            <?php endif; ?>
         </nav>
     </header>
     <main>
@@ -52,7 +58,27 @@ $tasks = $stmt->get_result();
             <?php while ($task = $tasks->fetch_assoc()): ?>
                 <li>
                     <strong><a href="task.php?id=<?php echo $task['task_id']; ?>"><?php echo htmlspecialchars($task['title']); ?></a></strong><br>
-                    Deadline: <?php echo $task['deadline']; ?> | Prioritas: <?php echo $task['priority']; ?> | Status: <?php echo $task['status']; ?>
+                    Deadline: <?php echo $task['deadline']; ?> |
+                    Priotitas:
+                    <?php
+                        $priority = strtoupper($task['priority']);
+                        if ($priority === 'TINGGI') {
+                            echo '<span style="color:#e74c3c;font-weight:bold;">' . $priority . '</span>';
+                        } elseif ($priority === 'SEDANG') {
+                            echo '<span style="color:#ffd166;font-weight:bold;">' . $priority . '</span>';
+                        } else {
+                            echo '<span style="color:#3498db;font-weight:bold;">' . $priority . '</span>';
+                        }
+                    ?> |
+                    Status:
+                    <?php
+                        $status = strtolower($task['status']);
+                        if ($status === 'selesai') {
+                            echo '<span style="color:#27ae60;font-weight:bold;">✅ SELESAI</span>';
+                        } else {
+                            echo '<span style="color:#e74c3c;font-weight:bold;">‼❌ BELUM</span>';
+                        }
+                    ?>
                 </li>
             <?php endwhile; ?>
             </ul>

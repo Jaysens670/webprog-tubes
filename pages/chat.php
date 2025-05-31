@@ -24,7 +24,9 @@
 
     <form id="chatForm" enctype="multipart/form-data">
         <input type="text" id="messageInput" placeholder="Ketik pesan...">
-        <input type="file" id="imageInput">
+        <label for="imageInput" style="margin-left:8px;">Input Gambar:</label>
+        <input type="file" id="imageInput" style="display:none;">
+        <button type="button" id="addImageBtn" style="margin-left:4px;">Add Gambar</button>
         <button type="submit">Kirim</button>
     </form>
 
@@ -33,6 +35,12 @@
     </div>
 
     <script src="../assets/chat.js"></script>
+    <script>
+        // Add image button logic
+        document.getElementById('addImageBtn').addEventListener('click', function(e) {
+            document.getElementById('imageInput').click();
+        });
+    </script>
 </body>
 
 </html>
