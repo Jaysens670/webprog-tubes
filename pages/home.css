@@ -192,7 +192,26 @@ button:hover {
     background: #ffe49c;
     color: #1a232e;
 }
+/* Tambahkan di bagian bawah file CSS */
+.back-button {
+    background: #2d3e50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+    transition: background 0.2s, color 0.2s;
+    display: inline-block;
+}
 
+.back-button:hover {
+    background: #1a232e;
+    color: #ffd166;
+}
 @media (max-width: 600px) {
     main {
         padding: 16px 4vw 24px 4vw;

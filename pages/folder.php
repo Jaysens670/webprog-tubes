@@ -51,6 +51,7 @@ $tasks = $stmt->get_result();
     </header>
     <main>
         <h2>Daftar Tugas</h2>
+          <button class="back-button" onclick="location.href='home.php'">← Kembali ke Main Menu</button>
         <?php if ($tasks->num_rows == 0): ?>
             <p>(Belum ada tugas di folder ini)</p>
         <?php else: ?>
