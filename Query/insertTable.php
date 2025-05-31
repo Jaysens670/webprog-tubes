@@ -1,8 +1,12 @@
 <?php
     include 'config.php';
 
-    // Contoh insert data awal
-    // $conn->query("INSERT INTO users (username, fullname, password, email) VALUES ('admin', 'Admin User', 'hashed_password', 'admin@example.com')");
+    // Insert channel chat default
+    $conn->query("INSERT INTO chat_channels (name) VALUES ('General')");
+    $conn->query("INSERT INTO chat_channels (name) VALUES ('Matematika')");
+    $conn->query("INSERT INTO chat_channels (name) VALUES ('Fisika')");
+    $conn->query("INSERT INTO chat_channels (name) VALUES ('Kimia')");
+    $conn->query("INSERT INTO chat_channels (name) VALUES ('Koding')");
 
-    echo "Contoh insert bisa ditambahkan di sini.";
+    echo "Channel default berhasil ditambahkan.";
 ?>
