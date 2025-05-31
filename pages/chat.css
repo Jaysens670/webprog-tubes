@@ -1,3 +1,4 @@
+/* chat.css - Styling for chat page */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f7fa;
@@ -33,9 +34,12 @@ h2 {
 }
 
 .chat-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
     margin-bottom: 15px;
-    padding-bottom: 8px;
     border-bottom: 1px dashed #ddd;
+    padding-bottom: 10px;
 }
 
 .chat-message strong {
@@ -48,18 +52,31 @@ h2 {
     border-radius: 6px;
 }
 
+.chat-user {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
 #chatForm {
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: center;
     gap: 8px;
     margin-bottom: 8px;
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
     justify-content: flex-start;
-}
-
-#chatForm input[type="text"] {
-    flex: 1;
 }
 
 #chatForm .image-upload-group {
@@ -70,9 +87,19 @@ h2 {
 }
 
 #chatForm .image-upload-row {
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
+    margin-bottom: 2px;
+    justify-content: flex-start;
+}
+
+#chatForm .input-row {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
 }
 
 #previewImage {
@@ -82,6 +109,43 @@ h2 {
     border-radius: 6px;
     border: 1px solid #eee;
     margin-left: 4px;
+}
+
+#chatForm input[type="text"] {
+    flex: 1;
+    min-width: 0;
+}
+
+#chatForm button[type="button"],
+#chatForm button[type="submit"] {
+    background-color: #2980b9;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#chatForm button[type="button"]:hover,
+#chatForm button[type="submit"]:hover {
+    background-color: #1761a0;
+}
+
+#chatForm button[type="submit"] {
+    margin-left: 0;
+    white-space: nowrap;
+}
+
+#chatForm button[type="button"] {
+    /* Hide add image button in input row, only show in image row */
+    display: none;
+}
+
+#imageInput {
+    display: none;
 }
 
 .navigation-buttons {
@@ -101,28 +165,5 @@ h2 {
 
 .back-button:hover {
     background-color: #636e72;
-}
-
-.chat-message {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 15px;
-    border-bottom: 1px dashed #ddd;
-    padding-bottom: 10px;
-}
-
-.chat-user {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-}
-
-.chat-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid #ccc;
 }
 
