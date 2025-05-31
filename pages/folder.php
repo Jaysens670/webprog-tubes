@@ -34,6 +34,7 @@ $tasks = $stmt->get_result();
     <meta charset="UTF-8">
     <title>Tugas di Folder: <?php echo htmlspecialchars($folder['folder_name']); ?></title>
     <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="folder.css">
 </head>
 <body>
     <header>
@@ -51,7 +52,6 @@ $tasks = $stmt->get_result();
     </header>
     <main>
         <h2>Daftar Tugas</h2>
-          <button class="back-button" onclick="location.href='home.php'">← Kembali ke Main Menu</button>
         <?php if ($tasks->num_rows == 0): ?>
             <p>(Belum ada tugas di folder ini)</p>
         <?php else: ?>
@@ -85,6 +85,9 @@ $tasks = $stmt->get_result();
             </ul>
         <?php endif; ?>
         <button onclick="location.href='maketask.php?folder_id=<?php echo $folder_id; ?>'">+ Tambah Tugas</button>
+        <div class="back-btn-container">
+            <button class="back-button" onclick="location.href='home.php'">← Kembali ke Main Menu</button>
+        </div>
     </main>
 </body>
 </html>

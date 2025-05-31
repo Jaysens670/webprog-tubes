@@ -61,32 +61,30 @@
             <button onclick="location.href='addfolder.php'">+ New Folder</button>
             <button onclick="location.href='maketask.php'">+ New task</button>
             <h2>Shared Tasks</h2>
-            <div id="shared-tasks"></div>
+            <div class="shared-tasks-list" style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
             <?php
-$stmt = $conn->prepare("SELECT t.*, u.username AS pemilik 
-                        FROM task_shares ts 
-                        JOIN tasks t ON ts.task_id = t.task_id 
-                        JOIN folders f ON t.folder_id = f.folder_id 
-                        JOIN users u ON f.user_id = u.user_id 
-                        WHERE ts.shared_to_user_id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+    $stmt = $conn->prepare("SELECT t.*, u.username AS pemilik 
+                            FROM task_shares ts 
+                            JOIN tasks t ON ts.task_id = t.task_id 
+                            JOIN folders f ON t.folder_id = f.folder_id 
+                            JOIN users u ON f.user_id = u.user_id 
+                            WHERE ts.shared_to_user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-if ($result->num_rows == 0) {
-    echo "<p>(Belum ada tugas kolaborasi)</p>";
-} else {
-    while ($row = $result->fetch_assoc()) {
-        echo "<div>";
-        echo "<strong><a href='task.php?id={$row['task_id']}'>" . htmlspecialchars($row['title']) . "</a></strong><br>";
-        echo "👤 Dari: " . htmlspecialchars($row['pemilik']) . "<br>";
-        echo "⏳ Deadline: " . $row['deadline'] . "<br>";
-        echo "🔥 Prioritas: " . $row['priority'] . "<br>";
-        echo "📌 Status: " . $row['status'] . "<br><br>";
-        echo "</div>";
+    if ($result->num_rows == 0) {
+        echo "<p>(Belum ada tugas kolaborasi)</p>";
+    } else {
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="folder-item" style="background: #f8fafc; border: 2px solid #ffd36b; border-radius: 15px; padding: 24px 32px; min-width: 260px; margin-bottom: 10px; box-shadow: 0 2px 8px #0001; display: flex; flex-direction: column; align-items: center;">';
+            echo '<strong>' . htmlspecialchars($row['title']) . '</strong><br>';
+            echo '<button class="lihat-tugas-btn" style="margin-top: 10px; background: #ffd36b; border: none; border-radius: 8px; padding: 8px 24px; font-weight: bold; cursor: pointer; box-shadow: 0 1px 2px #0001; transition: background 0.2s;" onclick="location.href=\'task.php?id=' . $row['task_id'] . '\'">Lihat Tugas</button>';
+            echo '</div>';
+        }
     }
-}
-?>
+    ?>
+            </div>
         <?php endif; ?>
     </main>
     <script src="assets/main.js"></script>

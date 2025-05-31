@@ -213,10 +213,6 @@ $note_result = $notes->get_result();
 
     <hr>
 
-    <div class="navigation-buttons">
-        <a href="home.php" class="back-button">← Kembali ke Main Menu</a>
-    </div>
-
     <div class="collaborators-section">
         <h3>🤝 Kolaborator</h3>
         <ul>
@@ -296,6 +292,10 @@ $note_result = $notes->get_result();
             <?php endwhile; ?>
         </div>
     <?php endif; ?>
+
+    <div class="navigation-buttons" style="margin-top: 32px; text-align: center;">
+        <a href="home.php" class="back-button">← Kembali ke Main Menu</a>
+    </div>
 </div>
 </body>
 </html>
